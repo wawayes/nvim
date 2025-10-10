@@ -17,3 +17,27 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
   desc = "Disable format-on-save for ts/tsx/js/jsx",
 })
+
+-- Keep the terminal's transparency (e.g. kitty) by clearing background colors after colorscheme loads
+local function set_transparent()
+  local clear = { bg = "NONE" }
+  vim.api.nvim_set_hl(0, "Normal", clear)
+  vim.api.nvim_set_hl(0, "NormalNC", clear)
+  vim.api.nvim_set_hl(0, "NormalFloat", clear)
+  vim.api.nvim_set_hl(0, "SignColumn", clear)
+  vim.api.nvim_set_hl(0, "LineNr", clear)
+  vim.api.nvim_set_hl(0, "CursorLineNr", clear)
+  vim.api.nvim_set_hl(0, "EndOfBuffer", clear)
+  vim.api.nvim_set_hl(0, "FloatBorder", clear)
+  vim.api.nvim_set_hl(0, "TelescopeNormal", clear)
+  vim.api.nvim_set_hl(0, "TelescopeBorder", clear)
+end
+
+set_transparent()
+
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("transparent_bg", { clear = true }),
+  pattern = "*",
+  callback = set_transparent,
+  desc = "Make Neovim background transparent",
+})

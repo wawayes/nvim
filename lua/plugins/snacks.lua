@@ -9,6 +9,12 @@ return {
           explorer = {
             hidden = true,   -- show dotfiles by default
             ignored = true, -- also show files ignored by VCS (e.g. .env)
+            transform = function(item)
+              if item.dir and item.hidden then
+                return false
+              end
+              return item
+            end,
           },
         },
       },
